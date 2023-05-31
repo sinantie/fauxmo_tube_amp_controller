@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "230403-000217-esp01_1m",
+			"path": ".."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"span": "cpp"
+		}
+	}
+}
