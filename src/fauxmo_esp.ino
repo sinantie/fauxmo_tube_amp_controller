@@ -16,6 +16,7 @@ fauxmoESP fauxmo;
 
 #define DEBUG false
 static unsigned long amplifier_on_time = -1;
+static bool amplifier_off_request = false;
 
 void wifiSetup() {
 
@@ -98,6 +99,8 @@ void setup() {
         if (strcmp(device_name, ID_AMPLIFIER)==0) {
             if(state) { // if we just turned on the amplifiler
                 amplifier_on_time = millis();
+            } else { // if we just turned of the amplifier
+                amplifier_off_request = true;
             }
             digitalWrite(RELAY_1, state ? HIGH : LOW);
         } else if (strcmp(device_name, ID_STANDBY)==0) {
@@ -131,6 +134,24 @@ void loop() {
         }        
         amplifier_on_time = -1;
     }
+    if (amplifier_off_request) {
+        fauxmo.setState(ID_STANDBY, false, 0); // automatically turn standby off after turning off amplifier
+        digitalWrite(RELAY_2, LOW);
+        amplifier_off_request = false;
+        if(DEBUG) {
+            Serial.println("Auto turn standby off");
+        }
+    }  
+    if (millis() - amplifier_on_time > 10800000 && amplifier_on_time != -1) {
+        fauxmo.setState(ID_STANDBY, false, 0); // automatically turn standby and amplifier off after 3 hours
+        digitalWrite(RELAY_2, LOW);
+        fauxmo.setState(ID_AMPLIFIER, false, 0); // automatically turn standby and amplifier off after 3 hours
+        digitalWrite(RELAY_1, LOW);
+        if(DEBUG) {
+            Serial.println("Auto turn amplifier and standby off");
+        }        
+        amplifier_on_time = -1;
+    }  
     // If your device state is changed by any other means (MQTT, physical button,...)
     // you can instruct the library to report the new state to Alexa on next request:
     // fauxmo.setState(ID_YELLOW, true, 255);
