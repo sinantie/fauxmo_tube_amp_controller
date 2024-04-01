@@ -54,6 +54,7 @@ void setup() {
     // LEDs
     pinMode(RELAY_1, OUTPUT);
     pinMode(RELAY_2, OUTPUT);
+    delay(100);
     digitalWrite(RELAY_1, LOW);
     digitalWrite(RELAY_2, LOW);
     
@@ -99,7 +100,7 @@ void setup() {
         if (strcmp(device_name, ID_AMPLIFIER)==0) {
             if(state) { // if we just turned on the amplifiler
                 amplifier_on_time = millis();
-            } else { // if we just turned of the amplifier
+            } else { // if we just turned off the amplifier
                 amplifier_off_request = true;
             }
             digitalWrite(RELAY_1, state ? HIGH : LOW);
