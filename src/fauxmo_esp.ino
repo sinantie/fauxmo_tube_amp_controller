@@ -4,8 +4,8 @@
 fauxmoESP fauxmo;
 
 #define SERIAL_BAUDRATE    74880
-#define WIFI_SSID "VM4524677"
-#define WIFI_PASS "rn3qwCshhdtd"
+#define WIFI_SSID "XXXXXXXX"
+#define WIFI_PASS "yyyyyyyy"
 
 #define RELAY_1              1
 #define RELAY_2              3
